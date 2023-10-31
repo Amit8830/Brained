@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect, useState} from 'react';
 import {View, Text, TextInput, Button, Alert} from 'react-native';
 import {connect} from 'react-redux';
-import {addStudent, clearStudentData} from './studentAction';
+import {addStudent, clearStudentData} from '../Store/studentAction';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 

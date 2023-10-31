@@ -3,9 +3,9 @@ import React from 'react';
 import {Provider} from 'react-redux'; // Import Provider
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import LoginScreen from './Store/LoginScreen';
-import StudentFormScreen from './Store/StudentFormScreen';
-import HomeScreen from './Store/HomeScreen';
+import LoginScreen from './Components/LoginScreen';
+import StudentFormScreen from './Components/StudentFormScreen';
+import HomeScreen from './Components/HomeScreen';
 import store from './Store/store'; // Import your Redux store
 
 const Stack = createStackNavigator();

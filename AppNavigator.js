@@ -1,9 +1,9 @@
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 
-import LoginScreen from './Store/LoginScreen';
-import StudentFormScreen from './StudentFormScreen';
-import HomeScreen from './HomeScreen';
+import LoginScreen from './Components/LoginScreen';
+import StudentFormScreen from './Components/StudentFormScreen';
+import HomeScreen from './Components/HomeScreen';
 
 const AppNavigator = createStackNavigator(
   {
