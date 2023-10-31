@@ -4,8 +4,8 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, TextInput, Button, Alert} from 'react-native';
 import {connect} from 'react-redux';
 import {addStudent, clearStudentData} from './studentAction';
-
-// Your component code here
+import {Formik} from 'formik';
+import * as Yup from 'yup';
 
 const mapStateToProps = state => ({
   studentData: state.students.studentData,
@@ -14,6 +14,19 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   addStudent: studentData => dispatch(addStudent(studentData)),
   clearStudentData: () => dispatch(clearStudentData()),
+});
+
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required('Name is required'),
+  college: Yup.string().required('College Name is required'),
+  mobile: Yup.string()
+    .matches(/^\d{10}$/, 'Mobile must be a 10-digit number')
+    .required('Mobile is required'),
+  email: Yup.string().email('Invalid email').required('Email is required'),
+  address: Yup.string().required('Address is required'),
+  postcode: Yup.string()
+    .matches(/^\d{6}$/, 'Postcode must be a 6-digit number')
+    .required('Postcode is required'),
 });
 
 const StudentFormScreen = ({
@@ -87,59 +100,74 @@ const StudentFormScreen = ({
   };
   return (
     <View>
-      {/* <Text>Register as a Student:</Text>
-      <TextInput placeholder="Name" value={name} onChangeText={setName} />
-      <TextInput
-        placeholder="College Name"
-        value={college}
-        onChangeText={setCollege}
-      />
-      <TextInput
-        placeholder="Mobile"
-        value={mobile}
-        onChangeText={setMobile}
-        keyboardType="numeric"
-      />
-      <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
-      <TextInput
-        placeholder="Address"
-        value={address}
-        onChangeText={setAddress}
-      />
-      <TextInput
-        placeholder="Postcode"
-        value={postcode}
-        onChangeText={setPostcode}
-        keyboardType="numeric"
-      />
-      <Button title="Register" onPress={handleRegister} /> */}
-      <Text>Register as a Student:</Text>
-      <TextInput placeholder="Name" value={name} onChangeText={setName} />
-      <TextInput
-        placeholder="College Name"
-        value={college}
-        onChangeText={setCollege}
-      />
-      <TextInput
-        placeholder="Mobile"
-        value={mobile}
-        onChangeText={setMobile}
-        keyboardType="numeric"
-      />
-      <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
-      <TextInput
-        placeholder="Address"
-        value={address}
-        onChangeText={setAddress}
-      />
-      <TextInput
-        placeholder="Postcode"
-        value={postcode}
-        onChangeText={setPostcode}
-        keyboardType="numeric"
-      />
-      <Button title="Register" onPress={handleRegister} />
-      <Button title="Clear Student Data" onPress={handleClearData} />
+      <Formik
+        initialValues={{
+          name: '',
+          college: '',
+          mobile: '',
+          email: '',
+          address: '',
+          postcode: '',
+        }}
+        validationSchema={validationSchema}
+        onSubmit={(values, {resetForm}) => {
+          // Validation has passed, you can submit the data
+          addStudent(values);
+          resetForm();
+          navigation.navigate('Home');
+        }}>
+        {({values, handleChange, handleSubmit, errors, touched}) => (
+          <View>
+            <TextInput
+              placeholder="Name"
+              value={values.name}
+              onChangeText={handleChange('name')}
+            />
+            {touched.name && errors.name && <Text>{errors.name}</Text>}
+
+            <TextInput
+              placeholder="College Name"
+              value={values.college}
+              onChangeText={handleChange('college')}
+            />
+            {touched.college && errors.college && <Text>{errors.college}</Text>}
+
+            <TextInput
+              placeholder="Mobile"
+              value={values.mobile}
+              onChangeText={handleChange('mobile')}
+              keyboardType="numeric"
+            />
+            {touched.mobile && errors.mobile && <Text>{errors.mobile}</Text>}
+
+            <TextInput
+              placeholder="Email"
+              value={values.email}
+              onChangeText={handleChange('email')}
+            />
+            {touched.email && errors.email && <Text>{errors.email}</Text>}
+
+            <TextInput
+              placeholder="Address"
+              value={values.address}
+              onChangeText={handleChange('address')}
+            />
+            {touched.address && errors.address && <Text>{errors.address}</Text>}
+
+            <TextInput
+              placeholder="Postcode"
+              value={values.postcode}
+              onChangeText={handleChange('postcode')}
+              keyboardType="numeric"
+            />
+            {touched.postcode && errors.postcode && (
+              <Text>{errors.postcode}</Text>
+            )}
+
+            <Button title="Register" onPress={handleSubmit} />
+          </View>
+        )}
+      </Formik>
     </View>
   );
 };

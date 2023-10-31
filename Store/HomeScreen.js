@@ -25,10 +25,10 @@ const HomeScreen = ({studentData, navigation}) => {
       ) : (
         <View>
           <Text>No data found</Text>
-          <Button
+          {/* <Button
             title="Add Student"
             onPress={() => navigation.navigate('StudentForm')}
-          />
+          /> */}
         </View>
       )}
       <Button
@@ -45,9 +45,3 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps)(HomeScreen);
 
-{
-  /* <Button
-  title="Add Student"
-  onPress={() => navigation.navigate('StudentForm')}
-/>; */
-}
